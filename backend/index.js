@@ -152,7 +152,7 @@ app.use(express.urlencoded({ extended: true }));
 // CORS
 const allowedOrigins = [
   "http://localhost:5173", // Dev frontend
-  "https://your-frontend.vercel.app" // Production frontend
+  "https://our-service-mern-frontend.vercel.app" // Production frontend
 ];
 app.use(cors({
   origin: allowedOrigins,
