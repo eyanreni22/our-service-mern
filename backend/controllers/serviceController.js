@@ -3,33 +3,38 @@ const path = require("path");
 
 // ✅ Create a new service (only providers can add services)
 const createService = async (req, res) => {
-    try {
-        const { name, description, price, category } = req.body;
-        console.log("Request received:", req.body);  // ✅ Log request body
-        console.log("File received:", req.file);  // ✅ Log file upload
-        console.log("👤 Authenticated User:", req.user);
+  try {
+    const { name, description, price, category } = req.body;
 
-
-        if (req.user.role !== "provider") {
-            return res.status(403).json({ message: "Access denied" });
-        }
-
-        const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
-
-        const service = await Service.create({
-            name,
-            description,
-            price,
-            category,
-            provider: req.user.id,
-            image:imageUrl
-        });
-
-        res.status(201).json(service);
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+    if (req.user.role !== "provider") {
+      return res.status(403).json({ message: "Access denied" });
     }
+
+    let imageUrl = null;
+
+    if (req.file) {
+      const filename = req.file.filename;
+
+      // Build the full URL to access it in Render
+      imageUrl = `${process.env.BASE_URL}/uploads/${filename}`;
+    }
+
+    const service = await Service.create({
+      name,
+      description,
+      price,
+      category,
+      provider: req.user.id,
+      image: imageUrl, // ✅ full URL stored in MongoDB
+    });
+
+    res.status(201).json(service);
+  } catch (error) {
+    console.error("❌ Error creating service:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 };
+
 
 
 

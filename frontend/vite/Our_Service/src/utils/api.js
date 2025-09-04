@@ -60,7 +60,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 console.log("API URL:", BASE_URL);
 
 // Image base URL (same server, without /api)
-export const IMAGE_BASE_URL = BASE_URL.replace("/api", "");
+// export const IMAGE_BASE_URL = BASE_URL.replace("/api", "");
 
 // Axios instance
 const api = axios.create({
