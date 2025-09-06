@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const http = require("http");
 const path = require("path");
 require("dotenv").config();
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" }); // temp folder
+
 
 // MongoDB Connection
 const connectDB = require("./config/db");
